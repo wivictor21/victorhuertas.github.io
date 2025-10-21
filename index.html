@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Victor Huertas</title>
+
+  <!-- Bootstrap (solo grid y utilidades) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg1: #02040a;
+      --panel: rgba(0,0,0,0.55);
+      --neon: #39ff14; /* verde hacker */
+      --neon-dim: rgba(57,255,20,0.12);
+      --muted: #86a08b;
+      --accent: #2ce0ff;
+    }
+
+    html,body { height:100%; margin:0; background: radial-gradient(ellipse at 10% 10%, rgba(46,10,60,0.12), transparent 5%),
+      linear-gradient(180deg,#000814 0%, #02040a 60%); color: #cfead0; font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; }
+
+    /* matrix-like moving lines */
+    .matrix {
+      position: fixed; inset:0; z-index:0;
+      background-image: linear-gradient( rgba(57,255,20,0.02) 1px, transparent 1px );
+      background-size: 100% 24px;
+      pointer-events: none;
+      animation: matrixMove 12s linear infinite;
+      opacity: 0.08;
+    }
+    @keyframes matrixMove { 0%{ transform: translateY(0) } 100%{ transform: translateY(-200px) } }
+
+    /* container */
+    .wrap { position:relative; z-index:1; padding:48px 18px; max-width:1200px; margin:0 auto; }
+
+    /* header / hero */
+    .hero {
+      display:flex; gap:18px; align-items:center;
+      margin-bottom:28px;
+    }
+    .avatar {
+      width:140px; height:140px; border-radius:12px; overflow:hidden;
+      border:3px solid rgba(57,255,20,0.14); box-shadow: 0 6px 30px rgba(57,255,20,0.06), 0 0 18px rgba(0,0,0,0.6);
+    }
+    .avatar img { width:100%; height:100%; object-fit:cover; filter: contrast(1.05) saturate(1.02); }
+
+    .title {
+      line-height:1;
+    }
+    .title h1 { font-family: "Source Code Pro", monospace; font-size:28px; margin:0; color:var(--neon); text-shadow: 0 2px 10px rgba(57,255,20,0.06); }
+    .title .role { color:var(--muted); font-size:0.95rem; margin-top:6px; }
+
+    .term-badge {
+      margin-left:auto;
+      background: linear-gradient(90deg, rgba(57,255,20,0.06), transparent);
+      border:1px solid rgba(57,255,20,0.12);
+      padding:8px 12px; border-radius:8px; font-family: "Source Code Pro", monospace; color:var(--neon);
+      box-shadow: inset 0 -6px 18px rgba(0,0,0,0.4);
+    }
+
+    /* layout: two columns */
+    .content { display:grid; grid-template-columns: 1fr 340px; gap:22px; align-items:start; }
+    @media (max-width:992px){ .content { grid-template-columns: 1fr; } .term-badge{margin-left:0;margin-top:12px;} }
+
+    /* panels */
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18));
+      border: 1px solid rgba(57,255,20,0.06);
+      padding:20px; border-radius:12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      color:#dfffe0;
+    }
+    .panel h3 { font-family:"Source Code Pro", monospace; color:var(--neon); margin-bottom:8px; font-weight:600; }
+
+    .muted { color:var(--muted); font-size:0.95rem; }
+
+    /* contact list */
+    .contact a { color:var(--accent); text-decoration:none; }
+    .contact .line { display:flex; gap:10px; align-items:center; margin-bottom:8px; font-family: "Source Code Pro", monospace; color:var(--neon); }
+
+    /* sections */
+    .section-title {
+      display:flex; align-items:center; gap:10px; margin-bottom:12px;
+    }
+    .section-title .dot { width:10px; height:10px; background:var(--neon); border-radius:50%; box-shadow:0 0 10px rgba(57,255,20,0.6); }
+    .section-title span { color:var(--muted); font-size:0.95rem; }
+
+    /* experience / lists */
+    .job { border-left:3px solid rgba(57,255,20,0.08); padding-left:12px; margin-bottom:14px; }
+    .job h5 { margin:0 0 4px 0; font-family:"Source Code Pro", monospace; color:var(--neon); }
+    .job small { color:var(--muted); display:block; margin-bottom:6px; }
+
+    /* skills displayed like code tags */
+    .skills { display:flex; flex-wrap:wrap; gap:8px; }
+    .skill {
+      background:transparent; border:1px solid rgba(57,255,20,0.12); color:var(--neon);
+      padding:6px 10px; border-radius:6px; font-family:"Source Code Pro", monospace; font-size:0.85rem;
+      box-shadow: 0 6px 18px rgba(57,255,20,0.02);
+    }
+
+    /* certifications grid */
+    .cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    @media (max-width:576px){ .cert-grid { grid-template-columns:1fr; } }
+    .cert {
+      background: linear-gradient(90deg, rgba(57,255,20,0.02), transparent);
+      border:1px dashed rgba(57,255,20,0.05);
+      padding:8px; border-radius:6px; font-family:"Source Code Pro", monospace;
+      color:#d9ffd9; font-size:0.85rem;
+    }
+
+    /* code-like footer */
+    footer { margin-top:28px; font-family:"Source Code Pro", monospace; color:var(--muted); text-align:center; font-size:0.9rem; }
+
+    /* small interactive touches */
+    .glow-on-hover:hover { box-shadow: 0 6px 28px rgba(57,255,20,0.14); transform: translateY(-3px); transition: all .25s ease; }
+    .terminal {
+      background: rgba(0,0,0,0.18); border-radius:8px; padding:12px; border:1px solid rgba(255,255,255,0.02);
+      font-family:"Source Code Pro", monospace; font-size:0.92rem; color:var(--neon);
+    }
+
+    /* typing cursor */
+    .cursor { display:inline-block; width:8px; height:18px; background:var(--neon); margin-left:6px; animation: blink 1s steps(2) infinite; vertical-align:middle; border-radius:2px;}
+    @keyframes blink { 0%,50%{ opacity:1 } 51%,100%{ opacity:0 } }
+
+  </style>
+</head>
+<body>
+
+  <div class="matrix" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="avatar glow-on-hover"><img src="photo.jpg" alt="Foto Victor (reemplaza photo.jpg)"></div>
+      <div class="title">
+        <h1>Victor Julio Huertas Gómez</h1>
+        <div class="role muted">Ingeniero Telemático</div>
+        <div style="margin-top:8px; font-size:0.95rem; font-family: 'Source Code Pro', monospace; color:var(--neon-dim);">
+          Apasionado por desarrollo Fullstack, gestión de proyectos y soluciones en la nube.
+        </div>
+      </div>
+
+      <div class="term-badge terminal">
+        <span id="termText">> online</span><span class="cursor"></span>
+      </div>
+    </div>
+
+    <!-- CONTENT: 2 columnas -->
+    <div class="content">
+      <!-- LEFT (main) -->
+      <div>
+        <!-- PERFIL -->
+        <section class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>PERFIL</span></div>
+          <p class="muted" style="line-height:1.45;">
+            Apasionado por el desarrollo de software y la gestión de proyectos, con habilidades en frontend y backend (C, C++, C#, ASP.Net, Python, Java, Swift, JavaScript, TypeScript, HTML/CSS, Bootstrap, Angular). Experiencia en MySQL, PostgreSQL y servicios AWS. Soporte a dirección de proyectos en entidades públicas y manejo documental para trazabilidad.
+          </p>
+        </section>
+
+        <!-- EXPERIENCIA -->
+        <section class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>EXPERIENCIA</span></div>
+
+          <div class="job">
+            <h5>Corporación Colombia Digital</h5>
+            <small>Mayo 2024 – Septiembre 2024 · Apoyo Arquitectura Gobierno Digital</small>
+            <p class="muted">Contratista apoyando a director de proyecto y arquitecto de tecnología; redacción de actas, gestión de firmas/asistencia, organización y aseguramiento de entregables y repositorio documental.</p>
+          </div>
+
+          <div class="job">
+            <h5>Universidad de los Andes</h5>
+            <small>Febrero 2022 – Agosto 2022 · Desarrollador Backend (prácticas)</small>
+            <p class="muted">Desarrollo backend (Java, JavaScript), manejo de MySQL/PostgreSQL y trabajo en equipo para optimizar procesos de desarrollo.</p>
+          </div>
+        </section>
+
+        <!-- EDUCACIÓN -->
+        <section class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>EDUCACIÓN</span></div>
+          <div class="muted">
+            <strong>Ingeniería Telemática (Ciclos Propedéuticos)</strong><br>
+            Universidad Distrital Francisco José de Caldas · Agosto 2023 – Noviembre 2025 (Plan finalizado, grado en trámite).
+          </div>
+          <div style="height:8px"></div>
+          <div class="muted">
+            <strong>Tecnólogo en Sistematización de Datos</strong><br>
+            Universidad Distrital Francisco José de Caldas · Agosto 2018 – Marzo 2023.
+          </div>
+        </section>
+
+        <!-- CERTIFICACIONES (completa) -->
+        <section class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>CERTIFICACIONES</span></div>
+          <div class="cert-grid">
+            <div class="cert">English Without Borders - CONNECTIONS 2<br><small class="muted">British Council · feb. 2025 · ID: 9860</small></div>
+            <div class="cert">Proyectos complejos: éxitos o fracasos<br><small class="muted">Universidad de los Andes · sept. 2024</small></div>
+            <div class="cert">Gestión de Proyectos de Google<br><small class="muted">Google · abr. 2024 · ID: P96CDKZ83XBS</small></div>
+            <div class="cert">English Without Borders - CONNECTIONS 1<br><small class="muted">British Council · may. 2024</small></div>
+            <div class="cert">Gestión de proyectos con metodología Agile<br><small class="muted">Google · abr. 2024 · ID: YWWN8YCXS5NUSs</small></div>
+            <div class="cert">Aplicación de la gestión de proyectos en el mundo real<br><small class="muted">Google · abr. 2024 · ID: X6TMVWUMRBW2</small></div>
+            <div class="cert">Ejecución del proyecto: Ejecutar el proyecto<br><small class="muted">Google · mar. 2024 · ID: DUDLBWFX7D9B</small></div>
+            <div class="cert">Planificación del proyecto<br><small class="muted">Google · mar. 2024 · ID: 8GHQNXQYL467</small></div>
+            <div class="cert">B2 - Kaplan International Test<br><small class="muted">Kaplan · feb. 2024 · ID: 891345</small></div>
+            <div class="cert">Angular<br><small class="muted">Universidad de los Andes · sept. 2023 · ID: EDCO_33388</small></div>
+            <div class="cert">B1 - Kaplan International Test<br><small class="muted">Kaplan · sept. 2023 · ID: 818901</small></div>
+            <div class="cert">English Without Borders – PROGRESS 1<br><small class="muted">British Council · sept. 2023 · ID: 4557</small></div>
+            <div class="cert">Introducción a TypeScript<br><small class="muted">Universidad de los Andes · sept. 2023 · ID: EDCO_33385</small></div>
+            <div class="cert">Liderazgo y habilidades socioemocionales<br><small class="muted">Universidad de los Andes · sept. 2023 · ID: EDCO_31374</small></div>
+            <div class="cert">Professional Certificate<br><small class="muted">EnglishScore · sept. 2023 · ID: 9a9b6b35</small></div>
+            <div class="cert">Programación Orientada por Objetos (POO)<br><small class="muted">Universidad de los Andes · sept. 2023 · ID: EDCO_33386</small></div>
+            <div class="cert">TypeScript y manipulación del DOM<br><small class="muted">Universidad de los Andes · sept. 2023 · ID: EDCO_33387</small></div>
+            <div class="cert">AWS Educate Getting Started with Compute<br><small class="muted">Amazon Web Services · ago. 2023</small></div>
+            <div class="cert">AWS Educate Getting Started with Storage<br><small class="muted">Amazon Web Services · ago. 2023</small></div>
+            <div class="cert">Iniciación del proyecto: cómo iniciar un proyecto exitoso<br><small class="muted">Google · ago. 2023 · ID: T9KVNAFNPK3B</small></div>
+            <div class="cert">AWS Discovery Day: Introducción a la nube<br><small class="muted">Amazon Web Services · jul. 2023</small></div>
+            <div class="cert">Descubre la Nube AWS (AWS Cloud Practitioner Essentials)<br><small class="muted">Amazon Web Services · jul. 2023 · ID: 3287553</small></div>
+            <div class="cert">Fundamentos de la gestión de proyectos<br><small class="muted">Google · jul. 2023 · ID: BVBAUUK66UJG</small></div>
+            <div class="cert">Introducción al desarrollo web<br><small class="muted">Universidad de los Andes · jun. 2023 · ID: S3H3KTLJZC9W</small></div>
+            <div class="cert">JavaScript<br><small class="muted">Udemy · may. 2023 · ID: UC-7b97999e-da0f-4fdf-8708-4dde3ff3123f</small></div>
+          </div>
+        </section>
+
+        <!-- FOOTER / NOTE -->
+        <footer>Hecho con estilo: terminal · green neon · diseño "hacke" — Victor Julio Huertas</footer>
+      </div>
+
+      <!-- RIGHT (sidebar) -->
+      <aside>
+        <div class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>CONTACTO</span></div>
+          <div class="contact">
+            <div class="line"><i class="fa-solid fa-envelope"></i> <a href="mailto:victorinoomoordog@hotmail.com">victorinoomoordog@hotmail.com</a></div>
+            <div class="line"><i class="fa-solid fa-phone"></i> <a href="tel:+573229285391">+57 322 928 5391</a></div>
+            <div class="line"><i class="fa-solid fa-location-dot"></i> Bogotá, Colombia</div>
+            <div style="height:8px"></div>
+            <div class="line"><i class="fa-brands fa-github"></i> <a href="https://github.com/wivictor21" target="_blank">github.com/wivictor21</a></div>
+            <div class="line"><i class="fa-brands fa-linkedin"></i> <a href="http://www.linkedin.com/in/victor-julio-huertas-gomez-67214b226" target="_blank">linkedin</a></div>
+            <div class="line"><i class="fa-solid fa-folder-open"></i> <a href="https://drive.google.com/drive/folders/1KLkBVnwcYhkYrydAOOieTZQfcSs1a-LA" target="_blank">Portafolio Drive</a></div>
+          </div>
+        </div>
+
+        <div class="panel mb-3">
+          <div class="section-title"><div class="dot"></div><span>HABILIDADES</span></div>
+          <div class="skills">
+            <div class="skill">HTML</div>
+            <div class="skill">CSS</div>
+            <div class="skill">Bootstrap</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">TypeScript</div>
+            <div class="skill">Angular</div>
+            <div class="skill">Java</div>
+            <div class="skill">Python</div>
+            <div class="skill">C / C++ / C#</div>
+            <div class="skill">MySQL</div>
+            <div class="skill">PostgreSQL</div>
+            <div class="skill">AWS (básico)</div>
+          </div>
+        </div>
+
+        <div class="panel terminal">
+          <div class="section-title"><div class="dot"></div><span>IDIOMAS</span></div>
+          <div class="muted"><strong>Español:</strong> Nativo</div>
+          <div class="muted"><strong>Inglés:</strong> Nivel B1 (certificado)</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Small JS: typing + terminal status -->
+  <script>
+    // terminal-like rolling status
+    const statuses = [
+      "> online — /home/victor/projects",
+      "> listening: http://localhost:3000",
+      "> git: branch main | commits: 42",
+      "> connected: github.com/wivictor21"
+    ];
+    let si = 0;
+    const term = document.getElementById('termText');
+    setInterval(()=> {
+      term.textContent = statuses[si % statuses.length];
+      si++;
+    }, 2500);
+
+    // optional small cursor typing for header (nice touch)
+    // no heavy libs; simple letter reveal for the first line
+    const heroCursor = document.querySelector('.term-badge .cursor');
+    // blink is css; keep minimal JS for term status above
+
+    // accessibility: reduce motion respect
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      document.querySelector('.matrix').style.animation = 'none';
+      document.querySelectorAll('.glow-on-hover').forEach(e=>e.style.transition='none');
+    }
+  </script>
+
+  <!-- bootstrap bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
